@@ -36,7 +36,7 @@ class ServerN1F:
         while True:
             command = input("$ ")
             result = self.execute_command(command)
-            print(f"\n{str(result)}")
+            print(str(result))
 
 
 if __name__ == "__main__":
