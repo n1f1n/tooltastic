@@ -1,2 +1,2 @@
 # tooltastic
-Tooltastic is a backd00r like project.
+Tooltastic is a "client-server" like project.
