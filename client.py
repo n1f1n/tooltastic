@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 
 #########################################################################################
-#   Backdoor(client, need to move to the target machine)
-#   
+#   Client ... or something like that   
 #########################################################################################
 
 import socket
