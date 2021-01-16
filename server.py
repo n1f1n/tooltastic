@@ -35,21 +35,22 @@ class ServerN1F:
 #   #####################################################################################
 
     def execute_command(self, command):
+        #print(command[0])
         self.reliable_send(command)
+        if command[0] == "exit":
+            self.conn.close()
+            exit()
+        #self.reliable_send(command)
         resp = self.reliable_recv()
         return resp
 
     def run_server(self):
         while True:
             command = input("$ ")
+            command = command.split(" ")
             result = self.execute_command(command)
             print(result)
-
 
 if __name__ == "__main__":
     s = ServerN1F(S_IP, S_PORT)
     s.run_server()
-
-
-
-
