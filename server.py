@@ -22,6 +22,14 @@ class ServerN1F:
         self.conn, addr = server.accept()
         print(f"[+] Client connected  {str(addr)}")
 
+#   ##################################   MENU
+        print("[+] 0 : basic info")
+        print("[+] 1 : upload LinPeas")
+        print("[+] 2 : upload LinEnum")
+        print("\n")
+#   ##################################
+
+
 #   #####################################################################################
 #   JSON serialization ...
 
@@ -37,6 +45,7 @@ class ServerN1F:
 
     def write_file(self, path, content):
         with open(path, "wb") as file:
+            #content = bytes(content, encoding="utf-8")
             content = base64.b64decode(content)
             try:
                 file.write(content)
